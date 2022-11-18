@@ -1,0 +1,146 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Payless Deeplink</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <style>
+            .container-div {
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .form-detail {
+                min-width: 300px;
+                width: 20%;
+                height: 50%;
+                border: 1px solid black;
+                border-radius: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            button {
+                background-color: #0a0a23;
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                padding: 15px;
+                min-height: 20px;
+                min-width: 130px;
+                margin-top: 2rem;
+                transition: 0.3s;
+            }
+            button:hover {
+                animation: pulse 1s infinite;
+                transition: 0.3s;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                70% {
+                    transform: scale(0.9);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+            .pt {
+                margin-top: 2rem;
+            }
+            input:focus {
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-div" id="app">
+            <div class="form-detail">
+                <h1>PAYLESS API</h1>
+                <div class="Pt">
+                    <label for="phone">Phone number:</label> <br />
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        class="mt-2"
+                        required
+                    />
+                </div>
+
+                <br />
+                <button v-on:click="deeplink">Submit</button>
+            </div>
+        </div>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script>
+            let app = Vue.createApp({
+                data: () => {
+                    return {
+                        phone: "",
+                    };
+                },
+                methods: {
+                    deeplink() {
+                        const queryString = window.location.search;
+                        const urlParams = new URLSearchParams(queryString);
+                        const ticketId = urlParams.get("TicketId");
+                        const transactionId = urlParams.get("TransactionId");
+                        let phone_number = /[0]{1}[1-9]{2}[0-9]{6}/;
+                        let number = document.getElementById("phone");
+                        if (phone_number.test(number.value)) {
+                            window.location =
+                                "tg://"
+                            console.log(ticketId, transactionId, number.value);
+                            var _data = {
+                                        ticketId: ticketId,
+                                        transactionId: transactionId,
+                                        phoneNumber: number.value,
+                                    }
+                            try{
+                               let data =  JSON.stringify(_data)
+                                console.log(JSON.stringify(_data))
+                                fetch( "https://payless.herokuapp.com/api/users",
+                                {
+                                    method: "POST",
+                                    headers:  new Headers({'content-type': 'application/json'}),
+                                    body:data
+                                }).then(res=>console.log(res)).catch(e=>console.log(e))
+                            } catch(e) {
+                                console.log(e)
+                            }
+                            // fetch(
+                            //     "https://payless.herokuapp.com/api/users",
+                            //     {
+                            //         mode: "no-cors",
+                            //         method: "POST",
+                            //         headers: {
+                            //             Accept: "application/json",
+                            //             "Content-Type": "application/json",
+                            //         },
+                            //         body: JSON.stringify(_data),
+                            //     }
+                            // )
+                            //     .then((response) => response.json())
+                            //     .catch(e => console.log("fjdkjfdl", e));
+
+                            console.log("Correct phone number");
+                        } else {
+                            console.log("Invalid phone number");
+                        }
+                    },
+                },
+            });
+            app.mount("#app");
+        </script>
+    </body>
+</html>
