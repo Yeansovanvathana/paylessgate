@@ -99,7 +99,7 @@
                         let number = document.getElementById("phone");
                         if (phone_number.test(number.value)) {
                             window.location =
-                                "tg://"
+                                "https://ul.paylessgate.com/?cardID=12"
                             console.log(ticketId, transactionId, number.value);
                             var _data = {
                                         ticketId: ticketId,
@@ -132,7 +132,6 @@
                             // )
                             //     .then((response) => response.json())
                             //     .catch(e => console.log("fjdkjfdl", e));
-
                             console.log("Correct phone number");
                         } else {
                             console.log("Invalid phone number");
