@@ -17,10 +17,12 @@ class _sampleState extends State<sample> {
   var textValue = 'Switch is OFF';
 
   _launchURL() async {
-    var genTicket = RandomDigits.getInteger(11);
-    var genTransaction = RandomDigits.getInteger(4);
+    var genTicket = RandomDigits.getInteger(4);
+    var genTransaction = RandomDigits.getInteger(11);
     var url =
-        'https://paylessgate.netlify.app/?TicketId=${genTicket}&TransactionId=${genTransaction}';
+        // 'https://paylessgate.netlify.app/?TicketId=${genTicket}&TransactionId=${genTransaction}';
+        'http://127.0.0.1:5500/?TicketId=${genTicket}&TransactionId=${genTransaction}';
+
     if (await canLaunch(url)) {
       await launch(url);
     } else {

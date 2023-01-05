@@ -98,26 +98,38 @@
                         let phone_number = /[0]{1}[1-9]{2}[0-9]{6}/;
                         let number = document.getElementById("phone");
                         if (phone_number.test(number.value)) {
-                            window.location =
-                                "https://ul.paylessgate.com/?cardID=12"
+                            // window.location =
+                            //     // "fb-messenger://share/?link=https%3A%2F%2Fwww.the-ket.com%2Farticle%2Fknowledge%2F187";
+                                // "https://ul.paylessgate.com/?cardID=12";
+                            // "tg://resolve?domain=cheachansineath&text=hiii"
                             console.log(ticketId, transactionId, number.value);
                             var _data = {
-                                        ticketId: ticketId,
-                                        transactionId: transactionId,
-                                        phoneNumber: number.value,
+                                phone_number: number.value,
+                                ticket_id: ticketId,
+                                transaction_id: transactionId,
+                            };
+                            try {
+                                let data = JSON.stringify(_data);
+                                console.log(JSON.stringify(_data));
+                                fetch(
+                                    "http://127.0.0.1:8000/api/sampleapp/registers",
+                                    {
+                                        method: "POST",
+                                        headers: new Headers({
+                                            "content-type": "application/json",
+                                        }),
+                                        body: data,
                                     }
-                            try{
-                               let data =  JSON.stringify(_data)
-                                console.log(JSON.stringify(_data))
-                                fetch( "https://payless.herokuapp.com/api/users",
-                                {
-                                    method: "POST",
-                                    headers:  new Headers({'content-type': 'application/json'}),
-                                    body:data
-                                }).then(res=>console.log(res)).catch(e=>console.log(e))
-                            } catch(e) {
-                                console.log(e)
-                            }
+                                )
+                                    .then((res) => console.log(res))
+                                    .catch((e) => console.log(e));
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                window.location = "tg://resolve?domain=cheachansineath&text=hiii"
+
+                                // "fb-messenger://share/?link=https%3A%2F%2Fwww.the-ket.com%2Farticle%2Fknowledge%2F187";
+                                
                             // fetch(
                             //     "https://payless.herokuapp.com/api/users",
                             //     {
@@ -132,6 +144,7 @@
                             // )
                             //     .then((response) => response.json())
                             //     .catch(e => console.log("fjdkjfdl", e));
+
                             console.log("Correct phone number");
                         } else {
                             console.log("Invalid phone number");
